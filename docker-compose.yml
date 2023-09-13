@@ -113,3 +113,22 @@ services:
     volumes:
       - ./fail2ban/data:/data
       - ./npm/data/logs:/var/log/npm
+
+  code-server:
+    image: linuxserver/code-server:latest
+    environment:
+      - PUID=USER_UID
+      - PGID=USER_GID
+      - TZ=USER_TIMEZONE
+      - PASSWORD=CODE_SERVER_PASSWORD
+      - SUDO_PASSWORD=CODE_SERVER_SUDO_PASSWORD      
+      - PROXY_DOMAIN=CODE_SERVER_PROXY_DOMAIN
+      - DEFAULT_WORKSPACE=/home
+    volumes:
+      - /home/CHANGE_TO_USERNAME/vscodeconfig:/config
+      - /home/CHANGE_TO_USERNAME:/home
+    ports:
+      - 8443:8443
+    restart: unless-stopped
+    networks:
+      - CHANGE_TO_USERNAME
