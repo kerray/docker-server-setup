@@ -11,7 +11,7 @@ GREEN="\e[32m"
 CYAN="\e[36m"
 YELLOW="\e[33m"
 ENDCOLOR="\e[0m"
-REPO="henrygd/docker-server-setup"
+REPO="kerray/docker-server-setup"
 CUR_TIMEZONE=$(timedatectl show | grep zone | sed 's/Timezone=//g');
 MARIA_DB_ROOT_PASSWORD=$(< /dev/urandom tr -dc A-Z-a-z-0-9 | head -c"${1:-20}" | sed 's/-/_/g')
 NPM_DB_PASSWORD=$(< /dev/urandom tr -dc A-Z-a-z-0-9 | head -c"${1:-20}" | sed 's/-/_/g')
@@ -65,6 +65,11 @@ fi
 # fix permissions
 chown -R "$username": /home/"$username"/.ssh
 
+# code server prompts
+read -r -p "What should be the password for Code-server (Visual Studio Code)?" vscode_password
+read -r -p "What should be the sudo password for Code-server (Visual Studio Code)?" vscode_sudo_password
+read -r -p "What should be the proxy domain for Code-server?" vscode_proxy_domain
+
 # add / update packages
 echo -e "${CYAN}Updating system & packages...${ENDCOLOR}"
 
@@ -104,6 +109,9 @@ sed -i "s/NPM_DB_PASSWORD/$NPM_DB_PASSWORD/" "/home/$username/server/docker-comp
 sed -i "s/USER_UID/$(id -u "$username")/" "/home/$username/server/docker-compose.yml"
 sed -i "s/USER_GID/$(id -g "$username")/" "/home/$username/server/docker-compose.yml"
 sed -i "s|USER_TIMEZONE|$(timedatectl show | grep zone | sed 's/Timezone=//g')|" "/home/$username/server/docker-compose.yml"
+sed -i "s/CODE_SERVER_PASSWORD/$vscode_password/" "/home/$username/server/docker-compose.yml"
+sed -i "s/CODE_SERVER_SUDO_PASSWORD/$vscode_sudo_password/" "/home/$username/server/docker-compose.yml"
+sed -i "s/CODE_SERVER_PROXY_DOMAIN/$vscode_proxy_domain/" "/home/$username/server/docker-compose.yml"
 docker compose -f /home/"$username"/server/docker-compose.yml up -d
 
 # dummy logs so fail2ban doesn't shut down
