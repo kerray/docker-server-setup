@@ -3,7 +3,7 @@
 Run as root on a fresh installation
 
 ```bash
-curl -s https://raw.githubusercontent.com/henrygd/docker-server-setup/main/setup.sh > setup.sh && chmod +x ./setup.sh && ./setup.sh
+curl -s https://raw.githubusercontent.com/kerray/docker-server-setup/main/setup.sh > setup.sh && chmod +x ./setup.sh && ./setup.sh
 ```
 
 ### Hardens and configures system
@@ -39,6 +39,8 @@ Besides Nginx Proxy Manager, all services are tunneled through SSH and not publi
 - **[Fail2ban](https://github.com/crazy-max/docker-fail2ban)** configured to read Nginx Proxy Manager logs and block malicious IPs in iptables.
 
 - **[Watchtower](https://github.com/containrrr/watchtower)** to automatically update running containers to the latest image version.
+
+- **[Code-Server](https://github.com/coder/code-server)** to have a VSCode development environment.
 
 These are defined and can be disabled in `~/server/docker-compose.yml`.
 
