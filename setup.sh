@@ -48,7 +48,7 @@ echo ""
 
 # SSH port prompt
 read -r -p "Which port do you want to use for SSH (not 6900-6903 please)? " ssh_port
-while (( ssh_port < 1000 || ssh_port > 65000)); do
+while (( ssh_port < 22 || ssh_port > 65000)); do
   read -r -p "Please use a number between 1000 and 65000: " ssh_port
 done
 
