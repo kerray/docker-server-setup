@@ -25,6 +25,11 @@ services:
     image: linuxserver/mariadb
     container_name: mariadb
     restart: unless-stopped
+    command:
+      - --sql_mode=ALLOW_INVALID_DATES,NO_ZERO_DATE
+      - --wait-timeout=300
+      - --interactive_timeout=28800 
+      - --max_allowed_packet=128M
     networks:
       - CHANGE_TO_USERNAME
       - database
